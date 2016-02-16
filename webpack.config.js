@@ -9,7 +9,9 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: "kdutils.js"
+        filename: 'kdutils.js',
+        library: 'kdutils',
+        libraryTarget: 'umd'
     },
     module: {
         loaders: [
