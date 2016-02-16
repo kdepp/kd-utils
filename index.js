@@ -6,4 +6,6 @@ const kit = {
     ...async
 };
 
-export default kit;
+// Note: unable to use 'export default' with webpack, due to webpack's bug
+// reference: https://github.com/webpack/webpack/issues/706#issuecomment-180429684
+module.exports = kit;
