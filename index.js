@@ -1,8 +1,9 @@
 import * as utils from './lib/utils';
 import * as async from './lib/async';
 
-export default {
+const kit = {
     ...utils,
     ...async
 };
 
+export default kit;

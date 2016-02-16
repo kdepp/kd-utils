@@ -5,7 +5,7 @@
   "author": "kdepp <kdepp.cd@gmail.com>",
   "main": "dist/kdutils.js",
   "scripts": {
-    "build": "babel -o dist/kdutils.js index.js"
+    "build": "webpack --verbose --colors --display-error-details --config webpack.config.js"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",
