@@ -63,10 +63,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _utils = __webpack_require__(2);
@@ -81,7 +77,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var kit = _extends({}, utils, async);
 
-	exports.default = kit;
+	// Note: unable to use 'export default' with webpack, due to webpack's bug
+	// reference: https://github.com/webpack/webpack/issues/706#issuecomment-180429684
+	module.exports = kit;
 
 /***/ },
 /* 2 */
