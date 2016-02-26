@@ -162,7 +162,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var filter = exports.filter = partial(function (predicate, list) {
 	    return reduce(function (prev, cur) {
-	        if (fn(cur)) prev.push(cur);
+	        if (predicate(cur)) prev.push(cur);
 	        return prev;
 	    }, [], list);
 	});
