@@ -256,6 +256,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {}, Object.keys(obj));
 	});
 
+	var pick = exports.pick = partial(function (key_list, obj) {
+	    return reduce(function (prev, cur) {
+	        prev[cur] = obj[cur];
+	        return prev;
+	    }, {}, key_list);
+	});
+
 	/*
 	 * Function Operations
 	 */
