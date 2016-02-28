@@ -138,7 +138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var ret = initial;
 
 	    for (var i = 0, len = list.length; i < len; i += 1) {
-	        ret = fn(ret, list[i]);
+	        ret = fn(ret, list[i], i, list);
 	    }
 
 	    return ret;
@@ -148,21 +148,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var ret = initial;
 
 	    for (var i = list.length - 1; i >= 0; i -= 1) {
-	        ret = fn(list[i], ret);
+	        ret = fn(list[i], ret, i, list);
 	    }
 
 	    return ret;
 	});
 
 	var map = exports.map = partial(function (fn, list) {
-	    return reduce(function (prev, cur) {
-	        return prev.push(fn(cur)), prev;
+	    return reduce(function (prev, cur, i, list) {
+	        return prev.push(fn(cur, i, list)), prev;
 	    }, [], list);
 	});
 
 	var filter = exports.filter = partial(function (predicate, list) {
-	    return reduce(function (prev, cur) {
-	        if (predicate(cur)) prev.push(cur);
+	    return reduce(function (prev, cur, i, list) {
+	        if (predicate(cur, i, list)) prev.push(cur);
 	        return prev;
 	    }, [], list);
 	});
