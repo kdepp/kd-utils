@@ -279,10 +279,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, id, fns);
 	};
 
+	var compose_promise = exports.compose_promise = function compose_promise() {
+	    for (var _len4 = arguments.length, fns = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+	        fns[_key4] = arguments[_key4];
+	    }
+
+	    return reduce_right(function (cur, prev) {
+	        return function (x) {
+	            return Promise.resolve(prev(x)).then(cur);
+	        };
+	    }, id, fns);
+	};
+
 	var promisify = exports.promisify = function promisify(fn, context) {
 	    return function () {
-	        for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-	            args[_key4] = arguments[_key4];
+	        for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+	            args[_key5] = arguments[_key5];
 	        }
 
 	        return new Promise(function (resolve, reject) {
