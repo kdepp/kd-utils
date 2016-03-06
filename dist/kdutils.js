@@ -336,6 +336,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return str.length >= n ? str : repeat(1, '0') + str;
 	});
 
+	var sprintf = exports.sprintf = partial(function (str, data) {
+	    return reduce(function (prev, cur) {
+	        var reg = new RegExp("\\$\\{" + cur + "\\}", "g");
+	        return prev.replace(reg, data[cur]);
+	    }, str, Object.keys(data));
+	});
+
 /***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
