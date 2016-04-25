@@ -1,7 +1,7 @@
 {
   "name": "kd-utils",
   "description": "kdepp's utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "kdepp <kdepp.cd@gmail.com>",
   "main": "dist/kdutils.js",
   "scripts": {
