@@ -218,6 +218,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return ret;
 	});
 
+	var flatten = exports.flatten = function flatten(list) {
+	    return reduce(function (prev, cur) {
+	        return prev.concat(cur);
+	    }, [], list);
+	};
+
 	var deep_flatten = exports.deep_flatten = function deep_flatten(list) {
 	    var helper = function helper(list) {
 	        return reduce(function (prev, cur) {
