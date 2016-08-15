@@ -69,13 +69,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var utils = _interopRequireWildcard(_utils);
 
-	var _async = __webpack_require__(3);
-
-	var async = _interopRequireWildcard(_async);
-
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	var kit = _extends({}, utils, async);
+	var kit = _extends({}, utils);
 
 	// Note: unable to use 'export default' with webpack, due to webpack's bug
 	// reference: https://github.com/webpack/webpack/issues/706#issuecomment-180429684
@@ -88,21 +84,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	/*
 	 * Basic
 	 */
 
 	var id = exports.id = function id(x) {
-	    return x;
+	  return x;
 	};
 
 	var noop = exports.noop = function noop() {
-	    return undefined;
+	  return undefined;
 	};
 
 	/*
@@ -110,24 +114,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	var partial = exports.partial = function partial(fn) {
-	    var len = fn.length,
-	        _arbitary = undefined;
+	  var len = fn.length,
+	      _arbitary = undefined;
 
-	    _arbitary = function arbitary(cur_args, left_arg_cnt) {
-	        return function () {
-	            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	                args[_key] = arguments[_key];
-	            }
+	  _arbitary = function arbitary(cur_args, left_arg_cnt) {
+	    return function () {
+	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
 
-	            if (args.length >= left_arg_cnt) {
-	                return fn.apply(null, cur_args.concat(args));
-	            }
+	      if (args.length >= left_arg_cnt) {
+	        return fn.apply(null, cur_args.concat(args));
+	      }
 
-	            return _arbitary(cur_args.concat(args), left_arg_cnt - args.length);
-	        };
+	      return _arbitary(cur_args.concat(args), left_arg_cnt - args.length);
 	    };
+	  };
 
-	    return _arbitary([], len);
+	  return _arbitary([], len);
 	};
 
 	/*
@@ -135,120 +139,120 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	var reduce = exports.reduce = partial(function (fn, initial, list) {
-	    var ret = initial;
+	  var ret = initial;
 
-	    for (var i = 0, len = list.length; i < len; i += 1) {
-	        ret = fn(ret, list[i], i, list);
-	    }
+	  for (var i = 0, len = list.length; i < len; i += 1) {
+	    ret = fn(ret, list[i], i, list);
+	  }
 
-	    return ret;
+	  return ret;
 	});
 
 	var reduce_right = exports.reduce_right = partial(function (fn, initial, list) {
-	    var ret = initial;
+	  var ret = initial;
 
-	    for (var i = list.length - 1; i >= 0; i -= 1) {
-	        ret = fn(list[i], ret, i, list);
-	    }
+	  for (var i = list.length - 1; i >= 0; i -= 1) {
+	    ret = fn(list[i], ret, i, list);
+	  }
 
-	    return ret;
+	  return ret;
 	});
 
 	var map = exports.map = partial(function (fn, list) {
-	    return reduce(function (prev, cur, i, list) {
-	        return prev.push(fn(cur, i, list)), prev;
-	    }, [], list);
+	  return reduce(function (prev, cur, i, list) {
+	    return prev.push(fn(cur, i, list)), prev;
+	  }, [], list);
 	});
 
 	var filter = exports.filter = partial(function (predicate, list) {
-	    return reduce(function (prev, cur, i, list) {
-	        if (predicate(cur, i, list)) prev.push(cur);
-	        return prev;
-	    }, [], list);
+	  return reduce(function (prev, cur, i, list) {
+	    if (predicate(cur, i, list)) prev.push(cur);
+	    return prev;
+	  }, [], list);
 	});
 
 	var without = exports.without = partial(function (value, list) {
-	    return filter(function (x) {
-	        return x !== value;
-	    }, list);
+	  return filter(function (x) {
+	    return x !== value;
+	  }, list);
 	});
 
 	var pluck = exports.pluck = partial(function (key, list) {
-	    return map(function (x) {
-	        return x[key];
-	    }, list);
+	  return map(function (x) {
+	    return x[key];
+	  }, list);
 	});
 
 	var is_array = exports.is_array = function () {
-	    var MAX_SAFE_INTEGER = 9007199254740991,
-	        objToString = Object.prototype.toString,
-	        arrayTag = '[object Array]',
-	        isObjectLike = function isObjectLike(value) {
-	        return !!value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object';
-	    },
-	        isLength = function isLength(value) {
-	        return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-	    };
+	  var MAX_SAFE_INTEGER = 9007199254740991,
+	      objToString = Object.prototype.toString,
+	      arrayTag = '[object Array]',
+	      isObjectLike = function isObjectLike(value) {
+	    return !!value && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object';
+	  },
+	      isLength = function isLength(value) {
+	    return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	  };
 
-	    return function (value) {
-	        return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
-	    };
+	  return function (value) {
+	    return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+	  };
 	}();
 
 	var zipWith = exports.zipWith = partial(function (fn) {
-	    for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-	        args[_key2 - 1] = arguments[_key2];
-	    }
+	  for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+	    args[_key2 - 1] = arguments[_key2];
+	  }
 
-	    var len = Math.max.apply(null, args.map(function (x) {
-	        return x.length;
-	    })),
-	        ret = [];
+	  var len = Math.max.apply(null, args.map(function (x) {
+	    return x.length;
+	  })),
+	      ret = [];
 
-	    var _loop = function _loop(i) {
-	        ret.push(fn.apply(null, args.map(function (x) {
-	            return x[i];
-	        })));
-	    };
+	  var _loop = function _loop(i) {
+	    ret.push(fn.apply(null, args.map(function (x) {
+	      return x[i];
+	    })));
+	  };
 
-	    for (var i = 0; i < len; i += 1) {
-	        _loop(i);
-	    }
+	  for (var i = 0; i < len; i += 1) {
+	    _loop(i);
+	  }
 
-	    return ret;
+	  return ret;
 	});
 
 	var flatten = exports.flatten = function flatten(list) {
-	    return reduce(function (prev, cur) {
-	        return prev.concat(cur);
-	    }, [], list);
+	  return reduce(function (prev, cur) {
+	    return prev.concat(cur);
+	  }, [], list);
 	};
 
 	var deep_flatten = exports.deep_flatten = function deep_flatten(list) {
-	    var helper = function helper(list) {
-	        return reduce(function (prev, cur) {
-	            if (is_array(cur)) {
-	                prev = prev.concat(helper(cur));
-	            } else {
-	                prev.push(cur);
-	            }
+	  var helper = function helper(list) {
+	    return reduce(function (prev, cur) {
+	      if (is_array(cur)) {
+	        prev = prev.concat(helper(cur));
+	      } else {
+	        prev.push(cur);
+	      }
 
-	            return prev;
-	        }, [], list);
-	    };
+	      return prev;
+	    }, [], list);
+	  };
 
-	    return helper(list);
+	  return helper(list);
 	};
 
 	var range = exports.range = function range(start, end, step_) {
-	    var ret = [],
-	        step = step_ || 1;
+	  var ret = [],
+	      step = step_ || 1;
 
-	    for (var i = start; i < end; i += step) {
-	        ret.push(i);
-	    }
+	  for (var i = start; i < end; i += step) {
+	    ret.push(i);
+	  }
 
-	    return ret;
+	  return ret;
 	};
 
 	/*
@@ -256,17 +260,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	var obj_map = exports.obj_map = partial(function (fn, obj) {
-	    return reduce(function (prev, key) {
-	        prev[key] = fn(obj[key], key);
-	        return prev;
-	    }, {}, Object.keys(obj));
+	  return reduce(function (prev, key) {
+	    prev[key] = fn(obj[key], key);
+	    return prev;
+	  }, {}, Object.keys(obj));
 	});
 
 	var pick = exports.pick = partial(function (key_list, obj) {
-	    return reduce(function (prev, cur) {
-	        prev[cur] = obj[cur];
-	        return prev;
-	    }, {}, key_list);
+	  return reduce(function (prev, cur) {
+	    prev[cur] = obj[cur];
+	    return prev;
+	  }, {}, key_list);
+	});
+
+	var at = exports.at = partial(function (key, fn, dict) {
+	  return fn(dict[key]);
+	});
+
+	var on = exports.on = partial(function (key, fn, dict) {
+	  return _extends({}, dict, _defineProperty({}, key, fn(dict[key])));
 	});
 
 	/*
@@ -274,41 +286,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	var compose = exports.compose = function compose() {
-	    for (var _len3 = arguments.length, fns = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-	        fns[_key3] = arguments[_key3];
-	    }
+	  for (var _len3 = arguments.length, fns = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+	    fns[_key3] = arguments[_key3];
+	  }
 
-	    return reduce_right(function (cur, prev) {
-	        return function (x) {
-	            return cur(prev(x));
-	        };
-	    }, id, fns);
+	  return reduce_right(function (cur, prev) {
+	    return function (x) {
+	      return cur(prev(x));
+	    };
+	  }, id, fns);
 	};
 
 	var compose_promise = exports.compose_promise = function compose_promise() {
-	    for (var _len4 = arguments.length, fns = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-	        fns[_key4] = arguments[_key4];
-	    }
+	  for (var _len4 = arguments.length, fns = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+	    fns[_key4] = arguments[_key4];
+	  }
 
-	    return reduce_right(function (cur, prev) {
-	        return function (x) {
-	            return Promise.resolve(prev(x)).then(cur);
-	        };
-	    }, id, fns);
+	  return reduce_right(function (cur, prev) {
+	    return function (x) {
+	      return Promise.resolve(prev(x)).then(cur);
+	    };
+	  }, id, fns);
 	};
 
 	var promisify = exports.promisify = function promisify(fn, context) {
-	    return function () {
-	        for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-	            args[_key5] = arguments[_key5];
-	        }
+	  return function () {
+	    for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+	      args[_key5] = arguments[_key5];
+	    }
 
-	        return new Promise(function (resolve, reject) {
-	            fn.apply(context, [].concat(args, [function (err, data) {
-	                if (err) reject(err);else resolve(data || true);
-	            }]));
-	        });
-	    };
+	    return new Promise(function (resolve, reject) {
+	      fn.apply(context, [].concat(args, [function (err, data) {
+	        if (err) reject(err);else resolve(data || true);
+	      }]));
+	    });
+	  };
 	};
 
 	/*
@@ -324,163 +336,178 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	var trim = exports.trim = function trim(str) {
-	    return str.replace(/^\s*|\s*$/g, '');
+	  return str.replace(/^\s*|\s*$/g, '');
 	};
 
 	var repeat = exports.repeat = partial(function (n, str) {
-	    var ret = '';
+	  var ret = '';
 
-	    while (n-- > 0) {
-	        ret += str;
-	    }
+	  while (n-- > 0) {
+	    ret += str;
+	  }
 
-	    return ret;
+	  return ret;
 	});
 
 	var n_digits = exports.n_digits = partial(function (n, num) {
-	    var str = num + '';
-	    return str.length >= n ? str : repeat(1, '0') + str;
+	  var str = num + '';
+	  return str.length >= n ? str : repeat(1, '0') + str;
 	});
 
 	var sprintf = exports.sprintf = partial(function (str, data) {
-	    return reduce(function (prev, cur) {
-	        var reg = new RegExp("\\$\\{" + cur + "\\}", "g");
-	        return prev.replace(reg, data[cur]);
-	    }, str, Object.keys(data));
+	  return reduce(function (prev, cur) {
+	    var reg = new RegExp("\\$\\{" + cur + "\\}", "g");
+	    return prev.replace(reg, data[cur]);
+	  }, str, Object.keys(data));
 	});
 
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
+	var propPath = exports.propPath = partial(function (objFn, arrFn, str) {
+	  var parts = str.split('.');
+	  var reg = /\[\]$/;
+	  var isArrayPart = function isArrayPart(str) {
+	    return reg.test(str);
+	  };
 
-	'use strict';
+	  var fns = parts.reduce(function (prev, cur) {
+	    return isArrayPart(cur) ? [].concat(_toConsumableArray(prev), [objFn(cur.replace(reg, '')), arrFn]) : [].concat(_toConsumableArray(prev), [objFn(cur)]);
+	  }, []);
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.async_map_limit = exports.async_limit = exports.async_flow = exports.async_take_while_right = exports.async_reduce = exports.async_array_lift2 = exports.async_array_lift = undefined;
-
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-	var _utils = __webpack_require__(2);
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	var async_array_lift = exports.async_array_lift = (0, _utils.partial)(function (fn, list) {
-	    return Promise.all((0, _utils.map)(fn, list));
+	  return compose.apply(undefined, _toConsumableArray(fns));
 	});
 
-	var async_array_lift2 = exports.async_array_lift2 = (0, _utils.partial)(function (fn, list) {
-	    return Promise.all((0, _utils.map)(function (list2) {
-	        return Promise.all((0, _utils.map)(fn, list2));
-	    }, list));
+	var syncPropPath = exports.syncPropPath = propPath(on, map);
+
+	var asyncPropPath = exports.asyncPropPath = propPath(async_on, async_array_lift);
+
+	/*
+	 * Async Operations
+	 */
+
+	var async_on = exports.async_on = partial(function (key, fn, dict) {
+	  return Promise.resolve(fn(dict[key])).then(function (value) {
+	    return _extends({}, dict, _defineProperty({}, key, value));
+	  });
+	});
+
+	var async_at = exports.async_at = partial(function (key, fn, dict) {
+	  return Promise.resolve(fn(dict[key]));
+	});
+
+	var async_array_lift = exports.async_array_lift = partial(function (fn, list) {
+	  return Promise.all(map(fn, list));
+	});
+
+	var async_array_lift2 = exports.async_array_lift2 = partial(function (fn, list) {
+	  return Promise.all(map(function (list2) {
+	    return Promise.all(map(fn, list2));
+	  }, list));
 	});
 
 	var async_reduce = exports.async_reduce = function async_reduce(predicate, next_index, start_index, fn, initial, list) {
-	    var _run = undefined;
+	  var _run = undefined;
 
-	    _run = function run(cur_index, list, result) {
-	        return fn(result, list[cur_index]).then(function (ret) {
-	            return predicate(cur_index, list, ret) ? _run(next_index(cur_index), list, ret) : ret;
-	        });
-	    };
+	  _run = function run(cur_index, list, result) {
+	    return fn(result, list[cur_index]).then(function (ret) {
+	      return predicate(cur_index, list, ret) ? _run(next_index(cur_index), list, ret) : ret;
+	    });
+	  };
 
-	    return _run(start_index, list, initial);
+	  return _run(start_index, list, initial);
 	};
 
-	var async_take_while_right = exports.async_take_while_right = (0, _utils.partial)(function (async_predicate, list) {
-	    return async_reduce(
-	    // predicate
-	    function (index, list, _ref) {
-	        var _ref2 = _slicedToArray(_ref, 2);
+	var async_take_while_right = exports.async_take_while_right = partial(function (async_predicate, list) {
+	  return async_reduce(
+	  // predicate
+	  function (index, list, _ref) {
+	    var _ref2 = _slicedToArray(_ref, 2);
 
-	        var pass = _ref2[0];
-	        var ret = _ref2[1];
-	        return index > 0 && pass;
-	    },
+	    var pass = _ref2[0];
+	    var ret = _ref2[1];
+	    return index > 0 && pass;
+	  },
 
-	    // next_index
-	    function (index) {
-	        return index - 1;
-	    },
+	  // next_index
+	  function (index) {
+	    return index - 1;
+	  },
 
-	    // start_index
-	    list.length - 1,
+	  // start_index
+	  list.length - 1,
 
-	    // reducer fn
-	    function (_ref3, cur) {
-	        var _ref4 = _slicedToArray(_ref3, 2);
+	  // reducer fn
+	  function (_ref3, cur) {
+	    var _ref4 = _slicedToArray(_ref3, 2);
 
-	        var some = _ref4[0];
-	        var prev = _ref4[1];
+	    var some = _ref4[0];
+	    var prev = _ref4[1];
 
-	        return async_predicate(cur).then(function (pass) {
-	            return [pass, pass ? (prev.unshift(cur), prev) : prev];
-	        });
-	    },
-
-	    // initial
-	    [true, []],
-
-	    // list
-	    list).then(function (ret) {
-	        return ret[1];
+	    return async_predicate(cur).then(function (pass) {
+	      return [pass, pass ? (prev.unshift(cur), prev) : prev];
 	    });
+	  },
+
+	  // initial
+	  [true, []],
+
+	  // list
+	  list).then(function (ret) {
+	    return ret[1];
+	  });
 	});
 
-	var async_flow = exports.async_flow = (0, _utils.partial)(function (fn, list) {
-	    return async_reduce(function (index, list) {
-	        return index < list.length - 1;
-	    }, function (index) {
-	        return index + 1;
-	    }, 0, function (prev, cur) {
-	        return fn(cur).then(function (ret) {
-	            return [].concat(_toConsumableArray(prev), [ret]);
-	        });
-	    }, [], list);
-	});
-
-	var async_limit = exports.async_limit = (0, _utils.partial)(function (limit, tasks) {
-	    return new Promise(function (resolve, reject) {
-	        var count = 0,
-	            cur = 0,
-	            ret = [],
-	            len = tasks.length,
-	            run = function run(task, i) {
-	            count++;
-	            return task().then(function (x) {
-	                count--;
-	                ret.push([x, i]);
-	                return check();
-	            });
-	        },
-	            check = function check() {
-	            if (ret.length === tasks.length) {
-	                ret.sort(function (a, b) {
-	                    return a[1] - b[1];
-	                });
-	                resolve((0, _utils.pluck)(0, ret));
-	                return;
-	            }
-
-	            if (count < limit && cur < len) {
-	                cur++;
-	                return Promise.all([run(tasks[cur - 1], cur - 1), check()]);
-	            }
-	        };
-
-	        check().catch(function (e) {
-	            return console.log('error', e, e.stack);
-	        });
+	var async_flow = exports.async_flow = partial(function (fn, list) {
+	  return async_reduce(function (index, list) {
+	    return index < list.length - 1;
+	  }, function (index) {
+	    return index + 1;
+	  }, 0, function (prev, cur) {
+	    return fn(cur).then(function (ret) {
+	      return [].concat(_toConsumableArray(prev), [ret]);
 	    });
+	  }, [], list);
 	});
 
-	var async_map_limit = exports.async_map_limit = (0, _utils.partial)(function (limit, fn, list) {
-	    return async_limit(limit, (0, _utils.map)(function (x) {
-	        return function () {
-	            return fn(x);
-	        };
-	    }, list));
+	var async_limit = exports.async_limit = partial(function (limit, tasks) {
+	  return new Promise(function (resolve, reject) {
+	    var count = 0,
+	        cur = 0,
+	        ret = [],
+	        len = tasks.length,
+	        run = function run(task, i) {
+	      count++;
+	      return task().then(function (x) {
+	        count--;
+	        ret.push([x, i]);
+	        return check();
+	      });
+	    },
+	        check = function check() {
+	      if (ret.length === tasks.length) {
+	        ret.sort(function (a, b) {
+	          return a[1] - b[1];
+	        });
+	        resolve(pluck(0, ret));
+	        return;
+	      }
+
+	      if (count < limit && cur < len) {
+	        cur++;
+	        return Promise.all([run(tasks[cur - 1], cur - 1), check()]);
+	      }
+	    };
+
+	    check().catch(function (e) {
+	      return console.log('error', e, e.stack);
+	    });
+	  });
+	});
+
+	var async_map_limit = exports.async_map_limit = partial(function (limit, fn, list) {
+	  return async_limit(limit, map(function (x) {
+	    return function () {
+	      return fn(x);
+	    };
+	  }, list));
 	});
 
 /***/ }
